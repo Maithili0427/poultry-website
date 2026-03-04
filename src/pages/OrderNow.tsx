@@ -12,6 +12,7 @@ import chickensFeed from "@/assets/chickens-feeding.jpg";
 import poultryFeed from "@/assets/poultry-feed.jpg";
 import rooster from "@/assets/rooster-portrait.jpg";
 
+
 // Initialize EmailJS with your **public key**
 emailjs.init("M0YnjTHPFmVoE9_Dv");
 
