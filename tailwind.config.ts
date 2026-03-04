@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        heading: ["Merriweather", "Georgia", "serif"],
-        sans: ["Source Sans 3", "system-ui", "sans-serif"],
+         heading: ["Poppins", "sans-serif"],
+          body: ["Inter", "sans-serif"],
+        
       },
       colors: {
         border: "hsl(var(--border))",

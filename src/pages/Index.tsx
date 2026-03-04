@@ -29,82 +29,62 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* Hero */}
-      <section className="relative h-[90vh] min-h-[550px] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={heroFarm} alt="Poultry farm at golden hour" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-farm-dark/60" />
-        </div>
-        <div className="relative container-max px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-primary/20 backdrop-blur-sm rounded-full border border-primary/30"
-          >
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-sm text-background font-medium">Trusted by 5,000+ farmers nationwide</span>
-          </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-background leading-tight mb-4"
-          >
-            Your Trusted Poultry
-            <br />
-            <span className="text-primary">Partner</span>
-          </motion.h1>
+      {/* ================= HERO SECTION ================= */}
+<section className="relative h-[90vh] min-h-[550px] flex items-center overflow-hidden">
+  <div className="absolute inset-0">
+    <img
+      src={heroFarm}
+      alt="Modern Poultry Farm"
+      className="w-full h-full object-cover"
+    />
+    <div className="absolute inset-0 bg-black/60" />
+  </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="mb-6"
-          >
-            <AnimatedHighlights />
-          </motion.div>
+  <div className="relative container-max text-center px-6">
+    <motion.h1
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6"
+    >
+      Premium Poultry Solutions
+      <br />
+      <span className="text-primary">From Farm to Market</span>
+    </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="text-lg md:text-xl text-background/80 max-w-2xl mx-auto mb-8"
-          >
-            Premium poultry products, expert guidance, and sustainable farming solutions for a healthier tomorrow.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link
-              to="/order"
-              className="px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-md hover:opacity-90 transition-all duration-200 hover:scale-105"
-            >
-              Order Now
-            </Link>
-            <Link
-              to="/about"
-              className="px-8 py-3 bg-background/10 backdrop-blur-sm border border-background/30 text-background font-semibold rounded-md hover:bg-background/20 transition-all duration-200"
-            >
-              Learn More
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+    <motion.p
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.3 }}
+      className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-8"
+    >
+      Delivering fresh eggs, healthy poultry, and sustainable farming
+      excellence backed by innovation, hygiene, and trust.
+    </motion.p>
 
-      {/* Animated Highlights Bar */}
-      <section className="bg-secondary py-4">
-        <div className="container-max flex flex-wrap justify-center gap-6 md:gap-12 text-secondary-foreground text-sm font-medium">
-          {["🍳 Fresh Eggs Daily", "🐓 Healthy Poultry", "🌿 Farm to Table", "🛡️ Certified Quality", "🚚 Fast Delivery"].map((item) => (
-            <span key={item} className="whitespace-nowrap">{item}</span>
-          ))}
-        </div>
-      </section>
+    <div className="mb-8">
+      <AnimatedHighlights />
+    </div>
 
+    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      {/* ✅ Secondary Color Button */}
+      <Link
+        to="/order"
+        className="px-8 py-3 bg-secondary text-secondary-foreground font-semibold rounded-md hover:opacity-90 hover:scale-105 transition-all duration-200"
+      >
+        Order Now
+      </Link>
+
+      <Link
+        to="/about"
+        className="px-8 py-3 border border-white text-white font-semibold rounded-md hover:bg-white hover:text-black transition-all duration-200"
+      >
+        Learn More
+      </Link>
+    </div>
+  </div>
+</section>
       {/* Features */}
       <section className="section-padding bg-muted">
         <div className="container-max">
@@ -180,97 +160,222 @@ const Index = () => {
       </section>
 
       {/* Products Preview */}
-      <section className="section-padding bg-muted">
-        <div className="container-max">
-          <AnimatedSection className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">Our Products</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">From farm-fresh eggs to premium feed — everything you need.</p>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { img: eggsBasket, title: "Fresh Organic Eggs", desc: "Free-range, hormone-free eggs packed with nutrients.", price: "$4.99/dozen" },
-              { img: chickensFeed, title: "Day-Old Chicks", desc: "Healthy, vaccinated chicks for broiler and layer production.", price: "$1.50/chick" },
-              { img: poultryFeed, title: "Premium Feed", desc: "Scientifically formulated feed for maximum growth and health.", price: "$25/bag" },
-            ].map((product, i) => (
-              <AnimatedSection key={product.title} delay={i * 0.15}>
-                <div className="group rounded-lg overflow-hidden shadow-sm border border-border bg-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                  <div className="overflow-hidden h-56">
-                    <img
-                      src={product.img}
-                      alt={product.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-heading font-bold text-foreground">{product.title}</h3>
-                      <span className="text-xs font-semibold text-secondary bg-farm-green-light px-2 py-1 rounded-full">{product.price}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-4">{product.desc}</p>
-                    <Link
-                      to="/order"
-                      className="inline-block px-5 py-2 bg-primary text-primary-foreground text-sm font-semibold rounded-md hover:opacity-90 hover:scale-105 transition-all duration-200"
-                    >
-                      Order Now
-                    </Link>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
+<section className="section-padding bg-muted">
+  <div className="container-max">
 
-      {/* Testimonials */}
-      <section className="section-padding">
-        <div className="container-max">
-          <AnimatedSection className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">What Our Customers Say</h2>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((t, i) => (
-              <AnimatedSection key={t.name} delay={i * 0.1}>
-                <div className="p-6 bg-card rounded-lg border border-border hover:shadow-md transition-shadow duration-300">
-                  <div className="text-primary text-2xl mb-3">★★★★★</div>
-                  <p className="text-sm text-muted-foreground italic mb-4">"{t.quote}"</p>
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">{t.name}</div>
-                    <div className="text-xs text-muted-foreground">{t.role}</div>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
+    {/* Section Heading */}
+    <AnimatedSection className="text-center mb-14">
+      <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">
+        Our Products
+      </h2>
+      <p className="text-muted-foreground max-w-xl mx-auto">
+        From farm-fresh eggs to premium feed — everything you need.
+      </p>
+    </AnimatedSection>
 
-      {/* CTA */}
-      <section className="bg-primary section-padding">
-        <div className="container-max text-center">
-          <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary-foreground mb-4">
-              Ready to Get Started?
-            </h2>
-            <p className="text-primary-foreground/80 max-w-xl mx-auto mb-8">
-              Whether you're a farmer looking for quality supplies or a consumer seeking fresh products, we're here to help.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+    {/* Products Grid */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+      {[
+        {
+          img: eggsBasket,
+          title: "Fresh Organic Eggs",
+          desc: "Free-range, hormone-free eggs packed with nutrients.",
+           price: "₹180/dozen",
+        },
+        {
+          img: chickensFeed,
+          title: "Day-Old Chicks",
+          desc: "Healthy, vaccinated chicks for broiler and layer production.",
+          price: "From ₹100/chicks",
+        },
+        {
+          img: poultryFeed,
+          title: "Premium Feed",
+          desc: "Scientifically formulated feed for maximum growth and health.",
+          price: "₹2,000/bag",
+        },
+      ].map((product, i) => (
+        <AnimatedSection key={product.title} delay={i * 0.15}>
+          
+          {/* Card */}
+          <div className="group rounded-xl overflow-hidden shadow-md border border-border bg-card hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full flex flex-col">
+
+            {/* Image */}
+            <div className="overflow-hidden aspect-[4/3]">
+              <img
+                src={product.img}
+                alt={product.title}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+
+            {/* Content */}
+            <div className="p-6 flex flex-col flex-grow">
+              
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-heading font-bold text-foreground text-lg">
+                  {product.title}
+                </h3>
+                <span className="text-xs font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">
+                  {product.price}
+                </span>
+              </div>
+
+              <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
+                {product.desc}
+              </p>
+
+              {/* Button always bottom */}
               <Link
                 to="/order"
-                className="inline-block px-8 py-3 bg-background text-primary font-semibold rounded-md hover:scale-105 transition-transform duration-200"
-              >
+                className="mt-auto flex items-center justify-center px-5 py-2.5 bg-primary text-primary-foreground text-sm font-semibold rounded-md hover:opacity-90 hover:scale-105 transition-all duration-200"
+                >
                 Order Now
               </Link>
-              <Link
-                to="/contact"
-                className="inline-block px-8 py-3 bg-primary-foreground/10 border border-primary-foreground/30 text-primary-foreground font-semibold rounded-md hover:bg-primary-foreground/20 transition-all duration-200"
-              >
-                Contact Us
-              </Link>
+
             </div>
-          </AnimatedSection>
-        </div>
-      </section>
+          </div>
+
+        </AnimatedSection>
+      ))}
+    </div>
+
+  </div>
+</section>
+      
+
+     {/* Our Farm Process */}
+<section className="bg-background text-foreground section-padding">
+  <div className="container-max text-center">
+    
+    <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
+      Our Farm Process
+    </h2>
+
+    <p className="text-muted-foreground max-w-2xl mx-auto mb-12">
+      We follow strict hygiene and quality standards to ensure every product 
+      reaches you fresh, safe, and nutritious.
+    </p>
+
+    <div className="grid md:grid-cols-4 gap-8">
+      
+      {/* Step 1 */}
+      <div className="bg-secondary text-secondary-foreground 
+                      dark:bg-card dark:text-foreground 
+                      border border-border 
+                      p-6 rounded-xl shadow-sm 
+                      hover:shadow-lg hover:-translate-y-2 
+                      transition duration-300">
+        <div className="text-4xl mb-4">🐣</div>
+        <h3 className="text-xl font-semibold mb-2">Healthy Breeding</h3>
+        <p className="text-sm opacity-90">
+          Carefully selected breeds raised in a clean and safe environment.
+        </p>
+      </div>
+
+      {/* Step 2 */}
+      <div className="bg-secondary text-secondary-foreground 
+                      dark:bg-card dark:text-foreground 
+                      border border-border 
+                      p-6 rounded-xl shadow-sm 
+                      hover:shadow-lg hover:-translate-y-2 
+                      transition duration-300">
+        <div className="text-4xl mb-4">🌾</div>
+        <h3 className="text-xl font-semibold mb-2">Nutritious Feed</h3>
+        <p className="text-sm opacity-90">
+          Balanced and organic feed to ensure healthy growth and quality.
+        </p>
+      </div>
+
+      {/* Step 3 */}
+      <div className="bg-secondary text-secondary-foreground 
+                      dark:bg-card dark:text-foreground 
+                      border border-border 
+                      p-6 rounded-xl shadow-sm 
+                      hover:shadow-lg hover:-translate-y-2 
+                      transition duration-300">
+        <div className="text-4xl mb-4">🔍</div>
+        <h3 className="text-xl font-semibold mb-2">Quality Check</h3>
+        <p className="text-sm opacity-90">
+          Every product undergoes strict quality inspection before delivery.
+        </p>
+      </div>
+
+      {/* Step 4 */}
+      <div className="bg-secondary text-secondary-foreground 
+                      dark:bg-card dark:text-foreground 
+                      border border-border 
+                      p-6 rounded-xl shadow-sm 
+                      hover:shadow-lg hover:-translate-y-2 
+                      transition duration-300">
+        <div className="text-4xl mb-4">🚚</div>
+        <h3 className="text-xl font-semibold mb-2">Fresh Delivery</h3>
+        <p className="text-sm opacity-90">
+          Fast and hygienic delivery to maintain freshness and taste.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+{/* Testimonials */}
+<section className="section-padding bg-muted">
+  <div className="container-max">
+    <AnimatedSection className="text-center mb-12">
+      <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">
+        What Our Customers Say
+      </h2>
+    </AnimatedSection>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {[
+        {
+          img: "https://randomuser.me/api/portraits/men/32.jpg",
+          name: "Rahul Mapsekar",
+          role: "Farm Owner",
+          quote: "Excellent quality feed and healthy chicks. My farm productivity has improved significantly."
+        },
+        {
+          img: "https://randomuser.me/api/portraits/women/44.jpg",
+          name: "Suchita Naik",
+          role: "Retail Buyer",
+          quote: "The eggs are always fresh and hygienic. Highly recommended for quality products."
+        },
+        {
+          img: "https://randomuser.me/api/portraits/men/75.jpg",
+          name: "Amit Patil",
+          role: "Distributor",
+          quote: "Professional service and timely delivery. Truly reliable poultry partners."
+        }
+      ].map((t, i) => (
+        <AnimatedSection key={t.name} delay={i * 0.1}>
+          <div className="p-6 bg-card rounded-lg border border-border hover:shadow-md transition-shadow duration-300 text-center">
+
+            <img
+              src={t.img}
+              alt={t.name}
+              className="w-20 h-20 mx-auto rounded-full object-cover mb-4 border-4 border-farm-green-light"
+            />
+
+           <div className="text-yellow-500 text-xl mb-3">★★★★★</div>
+
+            <p className="text-sm text-muted-foreground italic mb-4">
+              "{t.quote}"
+            </p>
+
+            <div className="text-sm font-semibold text-foreground">
+              {t.name}
+            </div>
+            <div className="text-xs text-muted-foreground">
+              {t.role}
+            </div>
+
+          </div>
+        </AnimatedSection>
+      ))}
+    </div>
+  </div>
+</section>
     </Layout>
   );
 };

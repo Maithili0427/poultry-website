@@ -9,25 +9,41 @@ const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({ title: "Message Sent!", description: "We'll get back to you within 24 hours." });
-    setForm({ name: "", email: "", phone: "", subject: "", message: "" });
-  };
+  e.preventDefault();
 
+  toast({
+    title: "Thank You! ✅",
+    description: "Your message has been received successfully.",
+  });
+
+  setForm({ name: "", email: "", phone: "", subject: "", message: "" });
+};
   return (
     <Layout>
-      {/* Hero */}
-      <section className="bg-farm-dark section-padding text-center">
-        <div className="container-max">
-          <AnimatedSection>
-            <h1 className="text-4xl md:text-5xl font-heading font-bold text-background mb-4">Contact Us</h1>
-            <p className="text-background/70 text-lg max-w-2xl mx-auto">
-              Have questions? We'd love to hear from you. Reach out and we'll respond as soon as we can.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
+     {/* Hero */}
+<section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
+  
+  <div className="absolute inset-0">
+    <img
+      src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1600&q=80"
+      alt="Contact our poultry farm team"
+      className="w-full h-full object-cover"
+    />
+    {/* Better dark overlay */}
+    <div className="absolute inset-0 bg-black/60 dark:bg-black/70" />
+  </div>
 
+  <div className="relative container-max px-4 sm:px-6 lg:px-8 text-center">
+    <AnimatedSection>
+      <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
+        Contact Us
+      </h1>
+      <p className="text-white/80 text-lg max-w-2xl mx-auto">
+        Have questions or need assistance? Our team is here to support you with reliable guidance and prompt responses.
+      </p>
+    </AnimatedSection>
+  </div>
+</section>
       <section className="section-padding">
         <div className="container-max">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">

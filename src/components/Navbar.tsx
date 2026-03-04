@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -19,38 +20,50 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
       <div className="container-max px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
+
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-heading font-bold text-lg group-hover:scale-110 transition-transform duration-300">
-              P
-            </div>
+          <Link to="/" className="flex items-center gap-3 group">
+
+            {/* Circle Logo Image */}
+            <img
+              src="/logo.jpeg"
+              alt="Poultry Logo"
+              className="w-16 h-16 rounded-full object-cover border-2 border-primary shadow-md group-hover:scale-110 transition-transform duration-300"
+            />
+
+            {/* Brand Name */}
             <span className="font-heading font-bold text-lg text-foreground hidden sm:block">
-              Your Poultry Brand Name
+              ROYALROOST
             </span>
+
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                  location.pathname === link.to
-                    ? "bg-primary text-primary-foreground"
-                    : "text-foreground hover:bg-muted hover:text-primary"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              to="/order"
-              className="ml-2 px-5 py-2 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold hover:opacity-90 hover:scale-105 transition-all duration-200"
-            >
-              Order Now
-            </Link>
-          </div>
+         {/* Desktop Nav */}
+<div className="hidden md:flex items-center gap-3">
+  {navLinks.map((link) => (
+    <Link
+      key={link.to}
+      to={link.to}
+      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+        location.pathname === link.to
+          ? "bg-primary text-primary-foreground"
+          : "text-foreground hover:bg-muted hover:text-primary"
+      }`}
+    >
+      {link.label}
+    </Link>
+  ))}
+
+  <Link
+    to="/order"
+    className="ml-2 px-5 py-2 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold hover:opacity-90 hover:scale-105 transition-all duration-200"
+  >
+    Order Now
+  </Link>
+
+  
+  <ThemeToggle />
+</div>
 
           {/* Mobile Toggle */}
           <button
@@ -64,40 +77,47 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background border-b border-border overflow-hidden"
+     <AnimatePresence>
+  {isOpen && (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      className="md:hidden bg-background border-b border-border overflow-hidden"
+    >
+      <div className="px-4 py-4 space-y-1">
+        {navLinks.map((link) => (
+          <Link
+            key={link.to}
+            to={link.to}
+            onClick={() => setIsOpen(false)}
+            className={`block px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+              location.pathname === link.to
+                ? "bg-primary text-primary-foreground"
+                : "text-foreground hover:bg-muted"
+            }`}
           >
-            <div className="px-4 py-4 space-y-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setIsOpen(false)}
-                  className={`block px-4 py-3 rounded-md text-sm font-medium transition-colors ${
-                    location.pathname === link.to
-                      ? "bg-primary text-primary-foreground"
-                      : "text-foreground hover:bg-muted"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                to="/order"
-                onClick={() => setIsOpen(false)}
-                className="block px-4 py-3 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold text-center mt-2"
-              >
-                Order Now
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {link.label}
+          </Link>
+        ))}
+
+        <Link
+          to="/order"
+          onClick={() => setIsOpen(false)}
+          className="block px-4 py-3 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold text-center mt-2"
+        >
+          Order Now
+        </Link>
+
+        {/* 🔥 ADD THIS FOR MOBILE */}
+        <div className="flex justify-center mt-3">
+          <ThemeToggle />
+        </div>
+
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </nav>
   );
 };
