@@ -21,51 +21,50 @@ const Navbar = () => {
       <div className="container-max px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
 
-          {/* Logo */}
+          {/* Logo + Brand */}
           <Link to="/" className="flex items-center gap-3 group">
 
-            {/* Circle Logo Image */}
+            {/* Logo Image */}
             <img
               src="/logo.jpeg"
               alt="Poultry Logo"
-              className="w-16 h-16 rounded-full object-cover border-2 border-primary shadow-md group-hover:scale-110 transition-transform duration-300"
+              className="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover border-2 border-primary shadow-md group-hover:scale-110 transition-transform duration-300"
             />
 
             {/* Brand Name */}
-            <span className="font-heading font-bold text-lg text-foreground hidden sm:block">
+            <span className="font-serif font-bold text-base sm:text-lg md:text-xl text-foreground tracking-wider">
               ROYALROOST
             </span>
 
           </Link>
 
-         {/* Desktop Nav */}
-<div className="hidden md:flex items-center gap-3">
-  {navLinks.map((link) => (
-    <Link
-      key={link.to}
-      to={link.to}
-      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-        location.pathname === link.to
-          ? "bg-primary text-primary-foreground"
-          : "text-foreground hover:bg-muted hover:text-primary"
-      }`}
-    >
-      {link.label}
-    </Link>
-  ))}
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-3">
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                  location.pathname === link.to
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground hover:bg-muted hover:text-primary"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
 
-  <Link
-    to="/order"
-    className="ml-2 px-5 py-2 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold hover:opacity-90 hover:scale-105 transition-all duration-200"
-  >
-    Order Now
-  </Link>
+            <Link
+              to="/order"
+              className="ml-2 px-5 py-2 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold hover:opacity-90 hover:scale-105 transition-all duration-200"
+            >
+              Order Now
+            </Link>
 
-  
-  <ThemeToggle />
-</div>
+            <ThemeToggle />
+          </div>
 
-          {/* Mobile Toggle */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-2 rounded-md text-foreground hover:bg-muted transition-colors"
@@ -73,51 +72,54 @@ const Navbar = () => {
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+
         </div>
       </div>
 
       {/* Mobile Menu */}
-     <AnimatePresence>
-  {isOpen && (
-    <motion.div
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: "auto" }}
-      exit={{ opacity: 0, height: 0 }}
-      className="md:hidden bg-background border-b border-border overflow-hidden"
-    >
-      <div className="px-4 py-4 space-y-1">
-        {navLinks.map((link) => (
-          <Link
-            key={link.to}
-            to={link.to}
-            onClick={() => setIsOpen(false)}
-            className={`block px-4 py-3 rounded-md text-sm font-medium transition-colors ${
-              location.pathname === link.to
-                ? "bg-primary text-primary-foreground"
-                : "text-foreground hover:bg-muted"
-            }`}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-background border-b border-border overflow-hidden"
           >
-            {link.label}
-          </Link>
-        ))}
+            <div className="px-4 py-4 space-y-1">
 
-        <Link
-          to="/order"
-          onClick={() => setIsOpen(false)}
-          className="block px-4 py-3 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold text-center mt-2"
-        >
-          Order Now
-        </Link>
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setIsOpen(false)}
+                  className={`block px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+                    location.pathname === link.to
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground hover:bg-muted"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
 
-        {/* 🔥 ADD THIS FOR MOBILE */}
-        <div className="flex justify-center mt-3">
-          <ThemeToggle />
-        </div>
+              <Link
+                to="/order"
+                onClick={() => setIsOpen(false)}
+                className="block px-4 py-3 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold text-center mt-2"
+              >
+                Order Now
+              </Link>
 
-      </div>
-    </motion.div>
-  )}
-</AnimatePresence>
+              {/* Theme Toggle Mobile */}
+              <div className="flex justify-center mt-3">
+                <ThemeToggle />
+              </div>
+
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </nav>
   );
 };
