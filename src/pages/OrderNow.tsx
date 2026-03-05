@@ -11,6 +11,7 @@ import eggsBasket from "@/assets/eggs-basket.jpg";
 import chickensFeed from "@/assets/chickens-feeding.jpg";
 import poultryFeed from "@/assets/poultry-feed.jpg";
 import rooster from "@/assets/rooster-portrait.jpg";
+import { motion } from "framer-motion";
 
 // Initialize EmailJS with your **public key**
 emailjs.init("M0YnjTHPFmVoE9_Dv");
@@ -92,17 +93,32 @@ const OrderNow = () => {
 
   return (
     <Layout>
+
       {/* Hero Section */}
-      <section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
-        <img src={eggsBasket} alt="Order our poultry products" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="relative z-10 text-center w-full px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Order Now</h1>
-          <p className="text-white/80 max-w-2xl mx-auto text-lg">
-            Fill out the form below and we'll process your order quickly. Wholesale pricing available.
-          </p>
-        </div>
-      </section>
+<section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
+
+  <motion.img
+    src={eggsBasket}
+    alt="Order our poultry products"
+    className="absolute inset-0 w-full h-full object-cover"
+    initial={{ scale: 1.25 }}
+    animate={{ scale: 1 }}
+    transition={{ duration: 3, ease: "easeOut" }}
+  />
+
+  <div className="absolute inset-0 bg-black/40"></div>
+
+  <div className="relative z-10 text-center w-full px-4">
+    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+      Order Now
+    </h1>
+
+    <p className="text-white/80 max-w-2xl mx-auto text-lg">
+      Fill out the form below and we'll process your order quickly. Wholesale pricing available.
+    </p>
+  </div>
+
+</section>
 
       {/* Products & Form */}
       <section className="section-padding">

@@ -7,6 +7,7 @@ import poultryFeed from "@/assets/poultry-feed.jpg";
 import heroFarm from "@/assets/hero-farm.jpg";
 import rooster from "@/assets/rooster-portrait.jpg";
 import aboutFarm from "@/assets/about-farm.jpg";
+import { motion } from "framer-motion";
 
 const posts = [
   {
@@ -62,30 +63,37 @@ const posts = [
 const Blog = () => {
   return (
     <Layout>
-      {/* Hero */}
-      <section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=1600&q=80"
-            alt="Poultry farming blog and articles"
-            className="w-full h-full object-cover"
-          />
-          {/* Dark Overlay improved */}
-          <div className="absolute inset-0 bg-black/60 dark:bg-black/70" />
-        </div>
 
-        <div className="relative container-max px-4 sm:px-6 lg:px-8 text-center">
-          <AnimatedSection>
-            <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
-              Blog & Articles
-            </h1>
-            <p className="text-white/80 text-lg max-w-2xl mx-auto">
-              Expert insights, practical tips, and the latest updates from the
-              poultry farming industry.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
+      {/* Hero */}
+<section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
+  <div className="absolute inset-0">
+
+    <motion.img
+      src="https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=1600&q=80"
+      alt="Poultry farming blog and articles"
+      className="w-full h-full object-cover"
+      initial={{ scale: 1.2 }}
+      animate={{ scale: 1 }}
+      transition={{ duration: 2, ease: "easeOut" }}
+    />
+
+    {/* Dark Overlay improved */}
+    <div className="absolute inset-0 bg-black/60 dark:bg-black/70" />
+  </div>
+
+  <div className="relative container-max px-4 sm:px-6 lg:px-8 text-center">
+    <AnimatedSection>
+      <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
+        Blog & Articles
+      </h1>
+
+      <p className="text-white/80 text-lg max-w-2xl mx-auto">
+        Expert insights, practical tips, and the latest updates from the
+        poultry farming industry.
+      </p>
+    </AnimatedSection>
+  </div>
+</section>
 
       {/* Posts Grid */}
       <section className="section-padding bg-background">
