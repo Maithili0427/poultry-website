@@ -19,8 +19,8 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-white to-green-50 px-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 space-y-6">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 px-4">
+          <div className="w-full max-w-md bg-white rounded-xl border-[2px] shadow-lg p-8 space-y-6 dark:bg-gray-700 text-white-700">
         <h2 className="text-3xl font-bold text-red-700 text-center">Welcome Back</h2>
         <p className="text-center text-gray-600 text-sm">
           Sign in to place your orders quickly
