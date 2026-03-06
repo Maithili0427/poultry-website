@@ -21,9 +21,9 @@ export default function SignUp() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 px-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 boredr-[2px] space-y-6 dark:bg-gray-700 text-white-700">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 boredr-[2px] space-y-6 dark:bg-gray-700">
         <h2 className="text-3xl font-bold text-red-700 text-center">Create Account</h2>
-        <p className="text-center text-gray-600 text-sm">
+        <p className="text-center text-gray-600 text-sm dark:text-white">
           Sign up to place your orders quickly
         </p>
 
@@ -64,7 +64,7 @@ export default function SignUp() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-600">
+        <p className="text-center text-sm text-gray-600 dark:text-white">
           Already have an account?{" "}
           <Link
             to="/signin"

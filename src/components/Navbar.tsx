@@ -4,8 +4,14 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
 import { useAuth } from "../context/AuthContext";
+import UserTypeModel from "./UserTypeModel";
 
-const navLinks = [
+interface NavLink {
+  to: string;
+  label: string;
+}
+
+const navLinks: NavLink[] = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About Us" },
   { to: "/products", label: "Products" },
@@ -15,137 +21,188 @@ const navLinks = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   const location = useLocation();
-  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
+  const { isLoggedIn, logout } = useAuth();
+
   const handleOrderClick = () => {
-  if (!isLoggedIn) {
-    alert("Please sign in to place an order!"); // or open a modal
-    // navigate("/signin"); // remove this line if you don't want to redirect
-  } else {
-    navigate("/order");  // goes to order page if logged in
-  }
-};
+    if (!isLoggedIn) {
+      alert("Please sign in to place an order!");
+      navigate("/signin");
+    } else {
+      navigate("/order");
+    }
+  };
+
+  const handleSignUpClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseMobileMenu = () => {
+    setIsOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
-    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
-      <div className="container-max px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
+    <>
+      <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
+        <div className="container-max px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 md:h-20">
 
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <img
-              src="/logo.jpeg"
-              alt="Poultry Logo"
-              className="w-16 h-16 rounded-full object-cover border-2 border-primary shadow-md group-hover:scale-110 transition-transform duration-300"
-            />
-            <span className="font-heading font-bold text-lg text-foreground hidden sm:block">
-              ROYALROOST
-            </span>
-          </Link>
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3 group">
+              <img
+                src="/logo.jpeg"
+                alt="Poultry Logo"
+                className="w-16 h-16 rounded-full object-cover border-2 border-primary shadow-md group-hover:scale-110 transition-transform duration-300"
+              />
+              <span className="font-heading font-bold text-lg text-foreground hidden sm:block">
+                ROYALROOST
+              </span>
+            </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                  location.pathname === link.to
-                    ? "bg-primary text-primary-foreground"
-                    : "text-foreground hover:bg-muted hover:text-primary"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-3">
 
-            {/* Order Now Button */}
-            <button
-              onClick={handleOrderClick}
-              className="ml-2 px-5 py-2 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold hover:opacity-90 hover:scale-105 transition-all duration-200"
-            >
-              Order Now
-            </button>
-
-            {/* Sign Up Link */}
-            {!isLoggedIn && (
-              <Link
-                to="/signup"
-                className="ml-2 px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-semibold hover:opacity-90 hover:scale-105 transition-all duration-200"
-              >
-                Sign Up
-              </Link>
-            )}
-
-            <ThemeToggle />
-          </div>
-
-          {/* Mobile Toggle */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-md text-foreground hover:bg-muted transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background border-b border-border overflow-hidden"
-          >
-            <div className="px-4 py-4 space-y-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  onClick={() => setIsOpen(false)}
-                  className={`block px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                     location.pathname === link.to
                       ? "bg-primary text-primary-foreground"
-                      : "text-foreground hover:bg-muted"
+                      : "text-foreground hover:bg-muted hover:text-primary"
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
 
-              {/* Mobile Order Now */}
+              {/* Order Button */}
               <button
-                onClick={() => { setIsOpen(false); handleOrderClick(); }}
-                className="block w-full px-4 py-3 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold text-center mt-2"
+                onClick={handleOrderClick}
+                className="ml-2 px-5 py-2 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold hover:scale-105 transition"
               >
                 Order Now
               </button>
 
-              {/* Mobile Sign Up */}
+              {/* SIGNUP BUTTON (hidden when logged in) */}
               {!isLoggedIn && (
-                <Link
-                  to="/signup"
-                  onClick={() => setIsOpen(false)}
-                  className="block w-full px-4 py-3 bg-primary text-primary-foreground rounded-md text-sm font-semibold text-center mt-2"
+                <button
+                  onClick={handleSignUpClick}
+                  className="ml-2 px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-semibold hover:scale-105 transition"
                 >
                   Sign Up
-                </Link>
+                </button>
               )}
 
-              {/* Mobile Theme Toggle */}
-              <div className="flex justify-center mt-3">
-                <ThemeToggle />
-              </div>
+              {/* LOGOUT BUTTON (visible when logged in) */}
+              {isLoggedIn && (
+                <button
+                  onClick={handleLogout}
+                  className="ml-2 px-4 py-2 bg-red-500 text-white rounded-md text-sm font-semibold hover:scale-105 transition"
+                >
+                  Logout
+                </button>
+              )}
+
+              <ThemeToggle />
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden p-2 rounded-md text-foreground hover:bg-muted"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-background border-b border-border"
+            >
+              <div className="px-4 py-4 space-y-2">
+
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={handleCloseMobileMenu}
+                    className={`block px-4 py-3 rounded-md text-sm ${
+                      location.pathname === link.to
+                        ? "bg-primary text-primary-foreground"
+                        : "hover:bg-muted"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+
+                {/* Mobile Order */}
+                <button
+                  onClick={() => {
+                    handleCloseMobileMenu();
+                    handleOrderClick();
+                  }}
+                  className="block w-full px-4 py-3 bg-secondary text-secondary-foreground rounded-md"
+                >
+                  Order Now
+                </button>
+
+                {/* Mobile Signup */}
+                {!isLoggedIn && (
+                  <button
+                    onClick={() => {
+                      handleCloseMobileMenu();
+                      handleSignUpClick();
+                    }}
+                    className="block w-full px-4 py-3 bg-primary text-primary-foreground rounded-md"
+                  >
+                    Sign Up
+                  </button>
+                )}
+
+                {/* Mobile Logout */}
+                {isLoggedIn && (
+                  <button
+                    onClick={() => {
+                      handleCloseMobileMenu();
+                      handleLogout();
+                    }}
+                    className="block w-full px-4 py-3 bg-red-500 text-white rounded-md"
+                  >
+                    Logout
+                  </button>
+                )}
+
+                <div className="flex justify-center mt-2">
+                  <ThemeToggle />
+                </div>
+
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      {/* Signup Modal */}
+      <UserTypeModel isOpen={showModal} onClose={() => setShowModal(false)} />
+    </>
   );
 };
 

@@ -22,7 +22,7 @@ export default function SignIn() {
     <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 px-4">
           <div className="w-full max-w-md bg-white rounded-xl border-[2px] shadow-lg p-8 space-y-6 dark:bg-gray-700 text-white-700">
         <h2 className="text-3xl font-bold text-red-700 text-center">Welcome Back</h2>
-        <p className="text-center text-gray-600 text-sm">
+        <p className="text-center text-gray-600 text-sm dark:text-white">
           Sign in to place your orders quickly
         </p>
 
@@ -63,7 +63,7 @@ export default function SignIn() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-600">
+        <p className="text-center text-sm text-gray-600 dark:text-white">
           Don't have an account?{" "}
           <Link
             to="/signup"
