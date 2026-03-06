@@ -29,8 +29,8 @@ export default function SignUpBusiness() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex items-center justify-center">
-      <div className="bg-white w-[480px] p-10 rounded-xl shadow-xl">
+    <div className="min-h-screen bg-gray-200 flex items-center justify-center dark:bg-slate-900 dark:text-white">
+      <div className="bg-white w-[480px] p-10 rounded-xl shadow-xl dark:bg-slate-900 dark:text-white">
         <h1 className="text-3xl font-bold text-center text-red-700 mb-2">
           Register Your Poultry Business
         </h1>
@@ -41,7 +41,7 @@ export default function SignUpBusiness() {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block mb-1 text-gray-700">Business Name</label>
+            <label className="block mb-1 text-gray-700 dark:text-white">Business Name</label>
             <input
               type="text"
               required
@@ -51,7 +51,7 @@ export default function SignUpBusiness() {
           </div>
 
           <div className="mb-4">
-            <label className="block mb-1 text-gray-700">Owner Name</label>
+            <label className="block mb-1 text-gray-700 dark:text-white">Owner Name</label>
             <input
               type="text"
               required
@@ -61,7 +61,7 @@ export default function SignUpBusiness() {
           </div>
 
           <div className="mb-4">
-            <label className="block mb-1 text-gray-700">Email</label>
+            <label className="block mb-1 text-gray-700 dark:text-white">Email</label>
             <input
               type="email"
               required
@@ -71,7 +71,7 @@ export default function SignUpBusiness() {
           </div>
 
           <div className="mb-4">
-            <label className="block mb-1 text-gray-700">Phone</label>
+            <label className="block mb-1 text-gray-700 dark:text-white">Phone</label>
             <input
               type="tel"
               required
@@ -81,7 +81,7 @@ export default function SignUpBusiness() {
           </div>
 
           <div className="mb-4">
-            <label className="block mb-2 text-gray-700">
+            <label className="block mb-2 text-gray-700 dark:text-white">
               Is your business registered?
             </label>
 
@@ -114,7 +114,7 @@ export default function SignUpBusiness() {
 
           {registrationStatus === "yes" && (
             <div className="mb-4">
-              <label className="block mb-1 text-gray-700">
+              <label className="block mb-1 text-gray-700 dark:text-white">
                 Business Registration Number
               </label>
               <input
@@ -144,7 +144,7 @@ export default function SignUpBusiness() {
           </button>
         </form>
 
-        <p className="text-center text-gray-500 mt-4">
+        <p className="text-center text-gray-500 mt-4 dark:text-white">
           Already have an account?{" "}
           <Link to="/signin" className="text-red-600">
             Sign In
