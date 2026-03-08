@@ -30,8 +30,8 @@ const Navbar = () => {
 
   const handleOrderClick = () => {
     if (!isLoggedIn) {
-      alert("Please sign in to place an order!");
-      navigate("/signin");
+      alert("Please sign in if you are not a guest!");
+      navigate("/order");
     } else {
       navigate("/order");
     }

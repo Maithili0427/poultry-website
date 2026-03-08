@@ -15,6 +15,7 @@ export default function SignUp() {
     // Fake signup/login
     if (email && password) {
       login();
+      localStorage.setItem("role", "user");
       navigate("/");
     }
   };

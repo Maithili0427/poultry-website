@@ -17,11 +17,40 @@ import rooster from "@/assets/rooster-portrait.jpg";
 emailjs.init("M0YnjTHPFmVoE9_Dv");
 
 const products = [
-  { id: "eggs", img: eggsBasket, title: "Fresh Organic Eggs", price: "₹180/dozen" },
-  { id: "chicks", img: chickensFeed, title: "Day-Old Chicks", price: "₹40/chick" },
-  { id: "feed", img: poultryFeed, title: "Premium Poultry Feed", price: "₹2,000/bag" },
-  { id: "breeding", img: rooster, title: "Breeding Stock", price: "₹800/bird" },
+  { 
+    id: "eggs", 
+    img: eggsBasket, 
+    title: "Fresh Organic Eggs", 
+    price: "₹180/dozen",
+    wholesalePrice: "₹150/dozen"
+  },
+  { 
+    id: "chicks", 
+    img: chickensFeed, 
+    title: "Day-Old Chicks", 
+    price: "₹40/chick",
+    wholesalePrice: "₹32/chick"
+  },
+  { 
+    id: "feed", 
+    img: poultryFeed, 
+    title: "Premium Poultry Feed", 
+    price: "₹2,000/bag",
+    wholesalePrice: "₹1,700/bag"
+  },
+  { 
+    id: "breeding", 
+    img: rooster, 
+    title: "Breeding Stock", 
+    price: "₹800/bird",
+    wholesalePrice: "₹680/bird"
+  },
 ];
+
+// Function to get correct price
+const getPrice = (product: any, role: string) => {
+  return role === "business" ? product.wholesalePrice : product.price;
+};
 
 const SERVICE_ID = "service_2qx29yp";
 const TEMPLATE_ID = "template_6qz7a7m";
@@ -31,6 +60,9 @@ const OrderNow = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const selectedProduct = params.get("product");
+  
+  // Get user role (guest if not logged in)
+  const role = localStorage.getItem("role") || "guest";
 
   const [form, setForm] = useState({
     name: "",
@@ -127,7 +159,7 @@ const OrderNow = () => {
                     </div>
                     <div className="p-3">
                       <div className="text-sm font-semibold text-foreground">{p.title}</div>
-                      <div className="text-xs text-primary font-medium">{p.price}</div>
+                      <div className="text-xs text-primary font-medium">{getPrice(p,role)}</div>
                     </div>
                   </button>
                 ))}

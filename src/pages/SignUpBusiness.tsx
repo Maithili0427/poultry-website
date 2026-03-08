@@ -23,6 +23,9 @@ export default function SignUpBusiness() {
 
     // mark user as logged in
     login();
+    
+    //setting role for the user 
+    localStorage.setItem("role", "business");
 
     // redirect to home
     navigate("/");
