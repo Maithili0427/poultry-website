@@ -20,7 +20,6 @@ const navLinks: NavLink[] = [
 ];
 
 const Navbar = () => {
-
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -54,7 +53,7 @@ const Navbar = () => {
 
           <div className="flex items-center justify-between h-16 md:h-20">
 
-            {/* Logo + Brand */}
+            {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
 
               <img
@@ -70,16 +69,16 @@ const Navbar = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-5">
 
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    location.pathname === link.to
-                      ? "bg-primary text-primary-foreground"
-                      : "text-foreground hover:bg-muted hover:text-primary"
+                  className={`relative px-3 py-2 text-[17px] transition-all duration-200 ${
+                  location.pathname === link.to
+                  ? "font-bold text-black dark:text-white after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-[3px] after:h-[3px] after:w-8 after:bg-secondary after:content-['']"
+                  : "font-medium text-black dark:text-white hover:text-black dark:hover:text-white"
                   }`}
                 >
                   {link.label}
@@ -89,26 +88,26 @@ const Navbar = () => {
               {/* Order Button */}
               <button
                 onClick={handleOrderClick}
-                className="ml-2 px-5 py-2 bg-secondary text-secondary-foreground rounded-md text-sm font-semibold hover:scale-105 transition"
+                className="ml-4 px-6 py-2.5 bg-secondary text-secondary-foreground rounded-lg text-[16px] font-semibold hover:scale-105 transition-all duration-200"
               >
                 Order Now
               </button>
 
-              {/* Signup Button */}
+              {/* Signup */}
               {!isLoggedIn && (
                 <button
                   onClick={handleSignUpClick}
-                  className="ml-2 px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-semibold hover:scale-105 transition"
+                  className="ml-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg text-[16px] font-semibold hover:scale-105 transition-all duration-200"
                 >
                   Sign Up
                 </button>
               )}
 
-              {/* Logout Button */}
+              {/* Logout */}
               {isLoggedIn && (
                 <button
                   onClick={handleLogout}
-                  className="ml-2 px-4 py-2 bg-red-500 text-white rounded-md text-sm font-semibold hover:scale-105 transition"
+                  className="ml-2 px-5 py-2.5 bg-red-500 text-white rounded-lg text-[16px] font-semibold hover:scale-105 transition-all duration-200"
                 >
                   Logout
                 </button>
@@ -159,7 +158,6 @@ const Navbar = () => {
                   </Link>
                 ))}
 
-                {/* Mobile Order */}
                 <button
                   onClick={() => {
                     handleCloseMobileMenu();
@@ -170,7 +168,6 @@ const Navbar = () => {
                   Order Now
                 </button>
 
-                {/* Mobile Signup */}
                 {!isLoggedIn && (
                   <button
                     onClick={() => {
@@ -183,7 +180,6 @@ const Navbar = () => {
                   </button>
                 )}
 
-                {/* Mobile Logout */}
                 {isLoggedIn && (
                   <button
                     onClick={() => {
@@ -210,7 +206,6 @@ const Navbar = () => {
 
       </nav>
 
-      {/* Signup Modal */}
       <UserTypeModel isOpen={showModal} onClose={() => setShowModal(false)} />
 
     </>
