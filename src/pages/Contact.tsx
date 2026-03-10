@@ -3,6 +3,7 @@ import { Mail, Phone, MapPin, Clock, Facebook, Instagram, Twitter, Youtube } fro
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
 import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -20,15 +21,21 @@ const Contact = () => {
 };
   return (
     <Layout>
-     {/* Hero */}
+
+    {/* Hero */}
 <section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
   
   <div className="absolute inset-0">
-    <img
+
+    <motion.img
       src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1600&q=80"
       alt="Contact our poultry farm team"
       className="w-full h-full object-cover"
+      initial={{ scale: 1.25 }}
+      animate={{ scale: 1 }}
+      transition={{ duration: 3, ease: "easeOut" }}
     />
+
     {/* Better dark overlay */}
     <div className="absolute inset-0 bg-black/60 dark:bg-black/70" />
   </div>
@@ -38,11 +45,13 @@ const Contact = () => {
       <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
         Contact Us
       </h1>
+
       <p className="text-white/80 text-lg max-w-2xl mx-auto">
         Have questions or need assistance? Our team is here to support you with reliable guidance and prompt responses.
       </p>
     </AnimatedSection>
   </div>
+
 </section>
       <section className="section-padding">
         <div className="container-max">

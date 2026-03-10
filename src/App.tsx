@@ -28,8 +28,10 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
+
           <BrowserRouter>
             <ScrollToTop />
+
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<About />} />
@@ -42,6 +44,7 @@ const App = () => {
               <Route path="/business-signup" element={<SignUpBusiness />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>

@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
 import aboutFarm from "@/assets/about-farm.jpg";
 import rooster from "@/assets/rooster-portrait.jpg";
+import { motion } from "framer-motion";
 
 const values = [
   { icon: Target, title: "Our Mission", desc: "To provide sustainable, high-quality poultry products while supporting local farming communities with knowledge and resources." },
@@ -15,23 +16,34 @@ const values = [
 const About = () => {
   return (
     <Layout>
-      {/* Hero */}
-      <section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={aboutFarm} alt="Modern poultry farm aerial view" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-black/60 dark:bg-black/70" />
-        </div>
-        <div className="relative container-max px-4 sm:px-6 lg:px-8 text-center">
-          <AnimatedSection>
-            <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
-              About Us
-            </h1>
-            <p className="text-white/80 text-lg max-w-2xl mx-auto">
-              Decades of experience in poultry farming, dedicated to excellence and sustainability.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
+     {/* Hero */}
+<section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
+  <div className="absolute inset-0">
+    
+    <motion.img
+      src={aboutFarm}
+      alt="Modern poultry farm aerial view"
+      className="w-full h-full object-cover"
+      initial={{ scale: 1.2 }}
+      animate={{ scale: 1 }}
+      transition={{ duration: 2, ease: "easeOut" }}
+    />
+
+    <div className="absolute inset-0 bg-black/60 dark:bg-black/70" />
+  </div>
+
+  <div className="relative container-max px-4 sm:px-6 lg:px-8 text-center">
+    <AnimatedSection>
+      <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
+        About Us
+      </h1>
+
+      <p className="text-white/80 text-lg max-w-2xl mx-auto">
+        Decades of experience in poultry farming, dedicated to excellence and sustainability.
+      </p>
+    </AnimatedSection>
+  </div>
+</section>
 
       {/* Story */}
 <section className="section-padding bg-background text-foreground">

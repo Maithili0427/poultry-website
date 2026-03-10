@@ -5,6 +5,7 @@ import eggsBasket from "@/assets/eggs-basket.jpg";
 import chickensFeed from "@/assets/chickens-feeding.jpg";
 import poultryFeed from "@/assets/poultry-feed.jpg";
 import rooster from "@/assets/rooster-portrait.jpg";
+import { motion } from "framer-motion";
 
 const products = [
   {
@@ -45,29 +46,35 @@ const Products = () => {
     <Layout>
       
       {/* ================= HERO ================= */}
-      <section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1600&q=80"
-            alt="Premium poultry products and services"
-            className="w-full h-full object-cover"
-          />
-          {/* Proper dark overlay */}
-          <div className="absolute inset-0 bg-black/60 dark:bg-black/70" />
-        </div>
+<section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
+  <div className="absolute inset-0">
 
-        <div className="relative container-max px-4 sm:px-6 lg:px-8 text-center">
-          <AnimatedSection>
-            <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
-              Products & Services
-            </h1>
-            <p className="text-white/80 text-lg max-w-2xl mx-auto">
-              Premium poultry products and professional farming solutions designed 
-              to support quality and sustainable growth.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
+    <motion.img
+      src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1600&q=80"
+      alt="Premium poultry products and services"
+      className="w-full h-full object-cover"
+      initial={{ scale: 1.25 }}
+      animate={{ scale: 1 }}
+      transition={{ duration: 3, ease: "easeOut" }}
+    />
+
+    {/* Proper dark overlay */}
+    <div className="absolute inset-0 bg-black/60 dark:bg-black/70" />
+  </div>
+
+  <div className="relative container-max px-4 sm:px-6 lg:px-8 text-center">
+    <AnimatedSection>
+      <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
+        Products & Services
+      </h1>
+
+      <p className="text-white/80 text-lg max-w-2xl mx-auto">
+        Premium poultry products and professional farming solutions designed 
+        to support quality and sustainable growth.
+      </p>
+    </AnimatedSection>
+  </div>
+</section>
 
       {/* ================= PRODUCTS ================= */}
       <section className="section-padding bg-background">

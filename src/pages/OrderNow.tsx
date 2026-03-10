@@ -6,48 +6,26 @@ import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
 import { useToast } from "@/hooks/use-toast";
 import emailjs from "@emailjs/browser";
+import { motion } from "framer-motion";
 
 import eggsBasket from "@/assets/eggs-basket.jpg";
-import chickensFeed from "@/assets/chickens-feeding.jpg";
+import chicks from "@/assets/Day-Old Chicks.jpg";
 import poultryFeed from "@/assets/poultry-feed.jpg";
 import rooster from "@/assets/rooster-portrait.jpg";
+import chickensFeed from "@/assets/chickens-feeding.jpg";
+import broilerChicken from "@/assets/broiler-chicken.jpg";
 
-
-// Initialize EmailJS with your **public key**
 emailjs.init("M0YnjTHPFmVoE9_Dv");
 
 const products = [
-  { 
-    id: "eggs", 
-    img: eggsBasket, 
-    title: "Fresh Organic Eggs", 
-    price: "₹180/dozen",
-    wholesalePrice: "₹150/dozen"
-  },
-  { 
-    id: "chicks", 
-    img: chickensFeed, 
-    title: "Day-Old Chicks", 
-    price: "₹40/chick",
-    wholesalePrice: "₹32/chick"
-  },
-  { 
-    id: "feed", 
-    img: poultryFeed, 
-    title: "Premium Poultry Feed", 
-    price: "₹2,000/bag",
-    wholesalePrice: "₹1,700/bag"
-  },
-  { 
-    id: "breeding", 
-    img: rooster, 
-    title: "Breeding Stock", 
-    price: "₹800/bird",
-    wholesalePrice: "₹680/bird"
-  },
+  { id: "eggs", img: eggsBasket, title: "Fresh Organic Eggs", price: "₹180/dozen", wholesalePrice: "₹150/dozen" },
+  { id: "chicks", img: chicks, title: "Day-Old Chicks", price: "₹40/chick", wholesalePrice: "₹32/chick" },
+  { id: "feed", img: poultryFeed, title: "Premium Poultry Feed", price: "₹2,000/bag", wholesalePrice: "₹1,700/bag" },
+  { id: "breeding", img: rooster, title: "Breeding Stock", price: "₹800/bird", wholesalePrice: "₹680/bird" },
+  { id: "layers", img: chickensFeed, title: "Layer Chickens", price: "₹500/bird", wholesalePrice: "₹450/bird" },
+  { id: "broilers", img: broilerChicken, title: "Broiler Chickens", price: "₹350/bird", wholesalePrice: "₹300/bird" },
 ];
 
-// Function to get correct price
 const getPrice = (product: any, role: string) => {
   return role === "business" ? product.wholesalePrice : product.price;
 };
@@ -56,12 +34,12 @@ const SERVICE_ID = "service_2qx29yp";
 const TEMPLATE_ID = "template_6qz7a7m";
 
 const OrderNow = () => {
+
   const { toast } = useToast();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const selectedProduct = params.get("product");
-  
-  // Get user role (guest if not logged in)
+
   const role = localStorage.getItem("role") || "guest";
 
   const [form, setForm] = useState({
@@ -76,11 +54,14 @@ const OrderNow = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
+
     e.preventDefault();
 
-    // Required fields check
     if (!form.name || !form.email || !form.phone) {
-      toast({ title: "Error ❌", description: "Name, Email & Phone are required." });
+      toast({
+        title: "Error ❌",
+        description: "Name, Email & Phone are required."
+      });
       return;
     }
 
@@ -95,167 +76,233 @@ const OrderNow = () => {
       notes: form.notes,
     };
 
-    console.log("Sending EmailJS with params:", templateParams);
-
     try {
-      const res = await emailjs.send(
+
+      await emailjs.send(
         SERVICE_ID,
         TEMPLATE_ID,
         templateParams,
-        "M0YnjTHPFmVoE9_Dv" // Public key
+        "M0YnjTHPFmVoE9_Dv"
       );
-      console.log("EmailJS response:", res);
 
       toast({
         title: "Order Submitted! ✅",
-        description: "Order info sent to your email successfully!",
+        description: "Order sent successfully!"
       });
 
-      setForm({ name: "", email: "", phone: "", product: "", quantity: "1", notes: "" });
-    } catch (error: any) {
-      console.error("EmailJS error:", error);
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        product: "",
+        quantity: "1",
+        notes: "",
+      });
+
+    } catch (error) {
+
       toast({
         title: "Error ❌",
-        description: `Failed to send order. Status: ${error.status}, Text: ${error.text || "Check console"}`,
+        description: "Failed to send order."
       });
+
     } finally {
+
       setLoading(false);
+
     }
   };
 
   return (
+
     <Layout>
-      {/* Hero Section */}
+
       <section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
-        <img src={eggsBasket} alt="Order our poultry products" className="absolute inset-0 w-full h-full object-cover" />
+
+        <motion.img
+          src={eggsBasket}
+          alt="Order poultry products"
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ scale: 1.2 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 3 }}
+        />
+
         <div className="absolute inset-0 bg-black/40"></div>
+
         <div className="relative z-10 text-center w-full px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Order Now</h1>
+
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Order Now
+          </h1>
+
           <p className="text-white/80 max-w-2xl mx-auto text-lg">
-            Fill out the form below and we'll process your order quickly. Wholesale pricing available.
+            Fill the form below to order our fresh poultry products.
           </p>
+
         </div>
+
       </section>
 
-      {/* Products & Form */}
       <section className="section-padding">
+
         <div className="container-max">
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Product Selection */}
+
             <AnimatedSection>
-              <h2 className="text-2xl font-heading font-bold text-foreground mb-6">Our Products</h2>
-              <div className="grid grid-cols-2 gap-4">
+
+              <h2 className="text-2xl font-bold text-foreground mb-6">
+                Our Products
+              </h2>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+
                 {products.map((p) => (
+
                   <button
                     key={p.id}
                     type="button"
                     onClick={() => setForm({ ...form, product: p.title })}
-                    className={`rounded-lg border-2 overflow-hidden text-left transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
-                      form.product === p.title ? "border-primary shadow-lg" : "border-border"
+                    className={`rounded-xl border-2 overflow-hidden text-left transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+                      form.product === p.title
+                        ? "border-primary shadow-lg"
+                        : "border-border"
                     }`}
                   >
-                    <div className="h-28 overflow-hidden">
-                      <img src={p.img} alt={p.title} className="w-full h-full object-cover" />
+
+                    <div className="h-28 md:h-32 overflow-hidden">
+
+                      <img
+                        src={p.img}
+                        alt={p.title}
+                        className="w-full h-full object-cover"
+                      />
+
                     </div>
+
                     <div className="p-3">
-                      <div className="text-sm font-semibold text-foreground">{p.title}</div>
-                      <div className="text-xs text-primary font-medium">{getPrice(p,role)}</div>
+
+                      <div className="text-sm font-semibold text-foreground">
+                        {p.title}
+                      </div>
+
+                      <div className="text-xs text-primary font-medium">
+                        {getPrice(p, role)}
+                      </div>
+
                     </div>
+
                   </button>
+
                 ))}
+
               </div>
+
             </AnimatedSection>
 
-            {/* Order Form */}
             <AnimatedSection delay={0.15}>
-              <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 md:p-8 space-y-5">
-                <h2 className="text-2xl font-heading font-bold text-foreground mb-2">Order Details</h2>
+
+              <form
+                onSubmit={handleSubmit}
+                className="bg-card border border-border rounded-2xl shadow-md p-6 md:p-8 space-y-6"
+              >
+
+                <h2 className="text-2xl font-bold text-foreground">
+                  Order Details
+                </h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">Full Name *</label>
-                    <input
-                      type="text"
-                      required
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-md border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="Your name"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">Email *</label>
-                    <input
-                      type="email"
-                      required
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-md border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="you@email.com"
-                    />
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">Phone *</label>
-                    <input
-                      type="tel"
-                      required
-                      value={form.phone}
-                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-md border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="+1 (555) 000-0000"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">Quantity</label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={form.quantity}
-                      onChange={(e) => setForm({ ...form, quantity: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-md border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">Selected Product</label>
                   <input
                     type="text"
-                    readOnly
-                    value={form.product}
-                    className="w-full px-4 py-2.5 rounded-md border border-input bg-muted text-foreground text-sm"
-                    placeholder="Click a product on the left"
+                    required
+                    placeholder="Full Name"
+                    value={form.name}
+                    onChange={(e) =>
+                      setForm({ ...form, name: e.target.value })
+                    }
+                    className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:ring-2 focus:ring-primary"
                   />
+
+                  <input
+                    type="email"
+                    required
+                    placeholder="Email Address"
+                    value={form.email}
+                    onChange={(e) =>
+                      setForm({ ...form, email: e.target.value })
+                    }
+                    className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:ring-2 focus:ring-primary"
+                  />
+
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">Additional Notes</label>
-                  <textarea
-                    rows={3}
-                    value={form.notes}
-                    onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-md border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-                    placeholder="Special requests, delivery preferences..."
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+                  <input
+                    type="tel"
+                    required
+                    placeholder="Phone Number"
+                    value={form.phone}
+                    onChange={(e) =>
+                      setForm({ ...form, phone: e.target.value })
+                    }
+                    className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:ring-2 focus:ring-primary"
                   />
+
+                  <input
+                    type="number"
+                    min="1"
+                    value={form.quantity}
+                    onChange={(e) =>
+                      setForm({ ...form, quantity: e.target.value })
+                    }
+                    className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:ring-2 focus:ring-primary"
+                  />
+
                 </div>
+
+                <input
+                  type="text"
+                  readOnly
+                  value={form.product}
+                  placeholder="Select product"
+                  className="w-full px-4 py-3 rounded-lg border border-input bg-muted"
+                />
+
+                <textarea
+                  rows={3}
+                  placeholder="Additional Notes"
+                  value={form.notes}
+                  onChange={(e) =>
+                    setForm({ ...form, notes: e.target.value })
+                  }
+                  className="w-full px-4 py-3 rounded-lg border border-input bg-background resize-none focus:ring-2 focus:ring-primary"
+                />
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-md hover:opacity-90 hover:scale-[1.02] transition-all duration-200"
+                  className="w-full py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:scale-[1.02] hover:shadow-lg transition-all"
                 >
                   {loading ? "Submitting..." : "Submit Order"}
                 </button>
+
               </form>
+
             </AnimatedSection>
+
           </div>
+
         </div>
+
       </section>
+
     </Layout>
+
   );
+
 };
 
 export default OrderNow;

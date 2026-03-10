@@ -30,18 +30,25 @@ const Index = () => {
   return (
     <Layout>
 
-      {/* ================= HERO SECTION ================= */}
+    {/* ================= HERO SECTION ================= */}
 <section className="relative h-[90vh] min-h-[550px] flex items-center overflow-hidden">
+  
   <div className="absolute inset-0">
-    <img
+    
+    <motion.img
       src={heroFarm}
       alt="Modern Poultry Farm"
       className="w-full h-full object-cover"
+      initial={{ scale: 1.25 }}
+      animate={{ scale: 1 }}
+      transition={{ duration: 3, ease: "easeOut" }}
     />
+
     <div className="absolute inset-0 bg-black/60" />
   </div>
 
   <div className="relative container-max text-center px-6">
+    
     <motion.h1
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
@@ -68,7 +75,7 @@ const Index = () => {
     </div>
 
     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-      {/* ✅ Secondary Color Button */}
+      
       <Link
         to="/order"
         className="px-8 py-3 bg-secondary text-secondary-foreground font-semibold rounded-md hover:opacity-90 hover:scale-105 transition-all duration-200"
@@ -82,32 +89,59 @@ const Index = () => {
       >
         Learn More
       </Link>
+
+    </div>
+  </div>
+
+</section>
+     {/* Features */}
+<section className="section-padding bg-muted overflow-hidden">
+  <div className="container-max">
+    
+    <AnimatedSection className="text-center mb-12">
+      <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">
+        Why Choose Us
+      </h2>
+      <p className="text-muted-foreground max-w-xl mx-auto">
+        We deliver excellence in every aspect of poultry farming and products.
+      </p>
+    </AnimatedSection>
+
+    <div className="overflow-hidden">
+      
+      <motion.div
+        className="flex gap-6"
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{
+          repeat: Infinity,
+          duration: 20,
+          ease: "linear",
+        }}
+      >
+        {[...features, ...features].map((f, i) => (
+          <AnimatedSection key={i}>
+            <div className="min-w-[260px] bg-card p-6 rounded-lg shadow-sm border border-border text-center group hover:shadow-lg transition-all duration-300">
+              
+              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-farm-red-light flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                <f.icon size={28} />
+              </div>
+
+              <h3 className="font-heading font-bold text-foreground mb-2">
+                {f.title}
+              </h3>
+
+              <p className="text-sm text-muted-foreground">
+                {f.desc}
+              </p>
+
+            </div>
+          </AnimatedSection>
+        ))}
+      </motion.div>
+
     </div>
   </div>
 </section>
-      {/* Features */}
-      <section className="section-padding bg-muted">
-        <div className="container-max">
-          <AnimatedSection className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">Why Choose Us</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">We deliver excellence in every aspect of poultry farming and products.</p>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((f, i) => (
-              <AnimatedSection key={f.title} delay={i * 0.1}>
-                <div className="bg-card p-6 rounded-lg shadow-sm border border-border text-center group hover:shadow-lg hover:-translate-y-2 transition-all duration-300">
-                  <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-farm-red-light flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                    <f.icon size={28} />
-                  </div>
-                  <h3 className="font-heading font-bold text-foreground mb-2">{f.title}</h3>
-                  <p className="text-sm text-muted-foreground">{f.desc}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Video Section */}
       <section className="section-padding">
         <div className="container-max">

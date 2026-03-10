@@ -20,6 +20,7 @@ const navLinks: NavLink[] = [
 ];
 
 const Navbar = () => {
+
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -29,20 +30,11 @@ const Navbar = () => {
   const { isLoggedIn, logout } = useAuth();
 
   const handleOrderClick = () => {
-    if (!isLoggedIn) {
-      alert("Please sign in if you are not a guest!");
-      navigate("/order");
-    } else {
-      navigate("/order");
-    }
+    navigate("/order");
   };
 
   const handleSignUpClick = () => {
     setShowModal(true);
-  };
-
-  const handleCloseMobileMenu = () => {
-    setIsOpen(false);
   };
 
   const handleLogout = () => {
@@ -50,22 +42,31 @@ const Navbar = () => {
     navigate("/");
   };
 
+  const handleCloseMobileMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
+
         <div className="container-max px-4 sm:px-6 lg:px-8">
+
           <div className="flex items-center justify-between h-16 md:h-20">
 
-            {/* Logo */}
+            {/* Logo + Brand */}
             <Link to="/" className="flex items-center gap-3 group">
+
               <img
                 src="/logo.jpeg"
                 alt="Poultry Logo"
-                className="w-16 h-16 rounded-full object-cover border-2 border-primary shadow-md group-hover:scale-110 transition-transform duration-300"
+                className="w-14 h-14 rounded-full object-cover border-2 border-primary shadow-md group-hover:scale-110 transition-transform duration-300"
               />
-              <span className="font-heading font-bold text-lg text-foreground hidden sm:block">
+
+              <span className="font-serif font-bold text-lg md:text-xl text-foreground tracking-wider">
                 ROYALROOST
               </span>
+
             </Link>
 
             {/* Desktop Navigation */}
@@ -93,7 +94,7 @@ const Navbar = () => {
                 Order Now
               </button>
 
-              {/* SIGNUP BUTTON (hidden when logged in) */}
+              {/* Signup Button */}
               {!isLoggedIn && (
                 <button
                   onClick={handleSignUpClick}
@@ -103,7 +104,7 @@ const Navbar = () => {
                 </button>
               )}
 
-              {/* LOGOUT BUTTON (visible when logged in) */}
+              {/* Logout Button */}
               {isLoggedIn && (
                 <button
                   onClick={handleLogout}
@@ -114,9 +115,10 @@ const Navbar = () => {
               )}
 
               <ThemeToggle />
+
             </div>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="md:hidden p-2 rounded-md text-foreground hover:bg-muted"
@@ -125,17 +127,21 @@ const Navbar = () => {
             </button>
 
           </div>
+
         </div>
 
         {/* Mobile Menu */}
         <AnimatePresence>
+
           {isOpen && (
+
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden bg-background border-b border-border"
             >
+
               <div className="px-4 py-4 space-y-2">
 
                 {navLinks.map((link) => (
@@ -195,13 +201,18 @@ const Navbar = () => {
                 </div>
 
               </div>
+
             </motion.div>
+
           )}
+
         </AnimatePresence>
+
       </nav>
 
       {/* Signup Modal */}
       <UserTypeModel isOpen={showModal} onClose={() => setShowModal(false)} />
+
     </>
   );
 };
