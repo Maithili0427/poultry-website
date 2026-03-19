@@ -3,48 +3,107 @@ import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 
 export default function SignUp() {
-  const { login } = useAuth();
+  const { login } = useAuth();  // ✅ Already correct
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");  // ✅ Added name field
+  const [loading, setLoading] = useState(false);  // ✅ Added loading state
+  const [error, setError] = useState("");  // ✅ Added error state
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    // Fake signup/login
-    if (email && password) {
-      login();
-      localStorage.setItem("role", "user");
-      navigate("/");
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          name,  // ✅ Send name to backend
+          role: "regular"  // ✅ Fixed role name
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // ✅ FIXED: Single login call, matches AuthContext
+        login({
+          email,
+          role: 'regular',
+          name
+        });
+
+        // ✅ Remove localStorage (AuthContext handles it)
+        navigate("/");
+      } else {
+        setError(data.message || "Signup failed");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      setError("Server error. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 px-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 boredr-[2px] space-y-6 dark:bg-gray-700">
-        <h2 className="text-3xl font-bold text-red-700 text-center">Create Account</h2>
-        <p className="text-center text-gray-600 text-sm dark:text-white">
-          Sign up to place your orders quickly
-        </p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-red-50 dark:from-gray-900 dark:to-gray-800 px-4 py-12">
+      <div className="w-full max-w-md bg-white/80 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/50 space-y-6">
+        <div className="text-center">
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-2">
+            Create Account
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 text-sm">
+            Sign up to place your poultry orders quickly
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+            <p className="text-red-700 text-sm">{error}</p>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Name Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-200">
+              Full Name
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="John Doe"
+              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-100/50 bg-white/50 dark:bg-gray-700/50 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 transition-all duration-200"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-200">
               Email
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@email.com"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition"
+              placeholder="you@royalroost.com"
+              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-100/50 bg-white/50 dark:bg-gray-700/50 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 transition-all duration-200"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-200">
               Password
             </label>
             <input
@@ -52,24 +111,26 @@ export default function SignUp() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition"
+              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-100/50 bg-white/50 dark:bg-gray-700/50 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 transition-all duration-200"
               required
+              minLength={6}
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+            disabled={loading}
+            className="w-full py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold text-lg rounded-xl hover:from-green-700 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5"
           >
-            Sign Up
+            {loading ? "Creating Account..." : "Sign Up"}
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-600 dark:text-white">
+        <p className="text-center text-sm text-gray-600 dark:text-gray-300">
           Already have an account?{" "}
           <Link
             to="/signin"
-            className="text-red-600 font-semibold hover:underline"
+            className="text-red-600 font-semibold hover:text-red-700 font-bold hover:underline transition-colors"
           >
             Sign In
           </Link>
