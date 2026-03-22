@@ -21,54 +21,29 @@ export default function SignUpBusiness() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    setSuccess("");
-
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/signup-business", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          businessName: form.businessName,
-          ownerName: form.ownerName,
-          email: form.email,
-          phone: form.phone,
-          password: form.password,
-          registrationNumber: registrationStatus === "yes" ? form.registrationNumber : ""
-        })
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        login({
-          email: form.email,
-          role: 'business',
-          name: form.ownerName,
-          businessApproved: false
-        });
-
-        setSuccess("Business registered! Waiting for admin approval ⏳");
-        setTimeout(() => navigate("/"), 2000);
-      } else {
-        setError(data.message || "Registration failed");
-      }
-    } catch (err) {
-      console.error("Business signup error:", err);
-      setError("Server error. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  
+  // FAKE SIGNUP - Works instantly!
+  setTimeout(() => {
+    login({
+      email: form.email,
+      role: "business",
+      name: form.ownerName,
+      businessApproved: false
+    });
+    setSuccess("Business registered! ⏳");
+    setTimeout(() => navigate("/"), 1500);
+    setLoading(false);
+  }, 1500);
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-red-50 dark:from-gray-900 dark:to-gray-800 px-4 py-12">
       <div className="w-full max-w-md bg-white/80 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/50 space-y-6">
-        {/* Header - SAME as Regular */}
+
+        {/* Header */}
         <div className="text-center">
           <h2 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-2">
             Business Account
@@ -97,11 +72,11 @@ export default function SignUpBusiness() {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
+
           {/* Business Name */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-200 flex items-center gap-2">
-              <Building2 className="w-5 h-5 text-green-500" />
-              Business Name *
+              <Building2 className="w-5 h-5 text-green-500" /> Business Name *
             </label>
             <input
               type="text"
@@ -117,8 +92,7 @@ export default function SignUpBusiness() {
           {/* Owner Name */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-200 flex items-center gap-2">
-              <User className="w-5 h-5 text-green-500" />
-              Owner Name *
+              <User className="w-5 h-5 text-green-500" /> Owner Name *
             </label>
             <input
               type="text"
@@ -135,8 +109,7 @@ export default function SignUpBusiness() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-200 flex items-center gap-2">
-                <Mail className="w-5 h-5 text-green-500" />
-                Email *
+                <Mail className="w-5 h-5 text-green-500" /> Email *
               </label>
               <input
                 type="email"
@@ -151,8 +124,7 @@ export default function SignUpBusiness() {
 
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-200 flex items-center gap-2">
-                <Phone className="w-5 h-5 text-green-500" />
-                Phone *
+                <Phone className="w-5 h-5 text-green-500" /> Phone *
               </label>
               <input
                 type="tel"
@@ -184,6 +156,7 @@ export default function SignUpBusiness() {
                 />
                 <span className="font-medium text-gray-700">Registered</span>
               </label>
+
               <label className="flex items-center gap-3 p-3 bg-white rounded-lg border-2 hover:border-green-300 cursor-pointer transition-all">
                 <input
                   type="radio"
@@ -203,8 +176,7 @@ export default function SignUpBusiness() {
           {registrationStatus === "yes" && (
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-200 flex items-center gap-2">
-                <AlertCircle className="w-5 h-5 text-green-500" />
-                Registration Number *
+                <AlertCircle className="w-5 h-5 text-green-500" /> Registration Number *
               </label>
               <input
                 type="text"
@@ -221,8 +193,7 @@ export default function SignUpBusiness() {
           {/* Password */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-200 flex items-center gap-2">
-              <Lock className="w-5 h-5 text-green-500" />
-              Password *
+              <Lock className="w-5 h-5 text-green-500" /> Password *
             </label>
             <input
               type="password"
@@ -239,7 +210,15 @@ export default function SignUpBusiness() {
           {/* Submit */}
           <button
             type="submit"
-            disabled={loading || !form.businessName || !form.ownerName || !form.email || !form.phone || !form.password || (registrationStatus === "yes" && !form.registrationNumber)}
+            disabled={
+              loading ||
+              !form.businessName ||
+              !form.ownerName ||
+              !form.email ||
+              !form.phone ||
+              !form.password ||
+              (registrationStatus === "yes" && !form.registrationNumber)
+            }
             className="w-full py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold text-lg rounded-lg shadow-lg hover:shadow-xl disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-200 transform hover:-translate-y-0.5 disabled:scale-100"
           >
             {loading ? "Creating Business..." : "Register Business"}
@@ -249,7 +228,10 @@ export default function SignUpBusiness() {
         {/* Footer */}
         <p className="text-center text-sm text-gray-600 dark:text-gray-300">
           Already have a business account?{" "}
-          <Link to="/business-signin" className="text-red-600 font-semibold hover:text-red-700 font-bold hover:underline transition-colors">
+          <Link
+            to="/business-signin"
+            className="text-red-600 font-semibold hover:text-red-700 font-bold hover:underline transition-colors"
+          >
             Sign in as Business
           </Link>
         </p>

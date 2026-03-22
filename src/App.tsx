@@ -25,45 +25,50 @@ import OrderNow from "./pages/OrderNow";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import AdminOrders from "./pages/AdminOrders";
+import ProductCatalogue from "./pages/ProductCatalogue";
+
+
+
 
 const queryClient = new QueryClient();
 
 const App = () => {
   return (
-     <CartProvider>
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
+    <CartProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
 
-          <BrowserRouter>
-            <ScrollToTop />
+            <BrowserRouter>
+              <ScrollToTop />
 
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/order" element={<OrderNow />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/business-signup" element={<SignUpBusiness />} />
-              <Route path="/business-signin" element={<SignInBusiness />} /> {/* ✅ WORKS NOW */}
-              <Route path="/signup-admin" element={<SignUpAdmin />} />
-              <Route path="/admin/businesses" element={<AdminBusinesses />} />
-              <Route path="/admin/orders" element={<AdminOrders />} />
-              <Route path="/cart" element={<CartPage />} />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/order" element={<OrderNow />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/business-signup" element={<SignUpBusiness />} />
+                <Route path="/business-signin" element={<SignInBusiness />} /> {/* ✅ WORKS NOW */}
+                <Route path="/signup-admin" element={<SignUpAdmin />} />
+                <Route path="/admin/businesses" element={<AdminBusinesses />} />
+                <Route path="/admin/orders" element={<AdminOrders />} />
+                <Route path="/admin/products" element={<ProductCatalogue />} />
+                <Route path="/cart" element={<CartPage />} />
 
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </QueryClientProvider>
       </AuthProvider>
-    </CartProvider> 
+    </CartProvider>
   );
 };
 

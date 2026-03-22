@@ -1,87 +1,62 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const path = require("path");
-const businessRoutes = require("./routes/business");
+const bcrypt = require("bcrypt");
 const app = express();
 
-/* MIDDLEWARE */
 app.use(cors());
 app.use(express.json());
-app.use("/api/business", businessRoutes);
-/* SERVE IMAGES */
-app.use("/images", express.static(path.join(__dirname, "../public/images")));
 
-/* ROUTES */
-const authRoutes = require("./routes/auth");
-app.use("/api/auth", authRoutes);
+// ✅ FIXED: No deprecated options
+mongoose.connect("mongodb://localhost:27017/poultry")
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch(err => console.error("❌ MongoDB Error:", err));
 
-/* DATABASE CONNECTION */
-mongoose.connect("mongodb://127.0.0.1:27017/farmDB")
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+const UserSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, default: "regular" },
+  businessName: String,
+  status: { type: String, default: "approved" }
+});
+const User = mongoose.model("User", UserSchema);
 
-/* PRODUCT MODEL */
-const productSchema = new mongoose.Schema({
-  slug: String,
-  img: String,
-  title: String,
-  price: Number,
-  wholesalePrice: Number,
-  unit: String
+// 🔥 LOGIN
+app.post("/api/auth/login", async (req, res) => {
+  console.log("🔥 LOGIN:", req.body.email);
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  
+  if (user && await bcrypt.compare(password, user.password)) {
+    res.json({ role: user.role || "business", status: user.status });
+  } else {
+    res.status(401).json({ message: "Wrong credentials" });
+  }
 });
 
-const Product = mongoose.model("Product", productSchema);
-
-/* GET PRODUCTS */
-app.get("/products", async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
+// 🔥 SIGNUP BUSINESS
+app.post("/api/auth/signup-business", async (req, res) => {
+  console.log("🔥 SIGNUP:", req.body.email);
+  const { email, password, businessName, ownerName } = req.body;
+  
+  const existing = await User.findOne({ email });
+  if (existing) return res.status(400).json({ message: "Email exists" });
+  
+  const hashed = await bcrypt.hash(password, 10);
+  await User.create({ email, password: hashed, businessName, ownerName, role: "business" });
+  res.json({ message: "Business created!", role: "business" });
 });
 
-/* ADD SAMPLE PRODUCTS */
-app.get("/add-products", async (req, res) => {
-
-  await Product.create([
-    {
-      slug: "eggs",
-      img: "/images/eggs-basket.jpg",
-      title: "Fresh Organic Eggs",
-      price: 180,
-      wholesalePrice: 150,
-      unit: "dozen"
-    },
-    {
-      slug: "chicks",
-      img: "/images/rooster-portrait.jpg",
-      title: "Day-Old Chicks",
-      price: 40,
-      wholesalePrice: 32,
-      unit: "chick"
-    },
-    {
-      slug: "feed",
-      img: "/images/poultry-feed.jpg",
-      title: "Premium Poultry Feed",
-      price: 2000,
-      wholesalePrice: 1700,
-      unit: "bag"
-    },
-    {
-      slug: "breeding",
-      img: "/images/chickens-feeding.jpg",
-      title: "Breeding Stock",
-      price: 800,
-      wholesalePrice: 680,
-      unit: "bird"
-    }
-  ]);
-
-  res.send("Products Added Successfully");
-
+// 🔥 TEST USER
+app.get("/test-user", async (req, res) => {
+  const hashed = await bcrypt.hash("password123", 10);
+  await User.create({
+    email: "business@test.com",
+    password: hashed,
+    role: "business",
+    businessName: "Test Poultry"
+  });
+  res.send("✅ Test user created! Email: business@test.com, Pass: password123");
 });
 
-/* START SERVER */
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
-});
+app.listen(5000, () => console.log("🚀 Server: http://localhost:5000"));

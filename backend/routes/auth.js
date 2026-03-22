@@ -2,29 +2,26 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
-// ✅ NEW: REGULAR USER SIGNUP (Your frontend needs this!)
+// ✅ REGULAR SIGNUP (already working)
 router.post("/signup", async (req, res) => {
   try {
     console.log('✅ REGULAR SIGNUP HIT:', req.body);
     
-    const { email, password, name, role } = req.body;
+    const { email, password, name } = req.body;
     
-    // Check if user exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
     
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    // Create regular user
     const user = new User({
-      name,  // Regular users have 'name' field
+      name,
       email,
       password: hashedPassword,
       role: "regular",
-      status: "approved"  // Regular users auto-approved
+      status: "approved"
     });
     
     await user.save();
@@ -41,23 +38,77 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// ✅ YOUR EXISTING BUSINESS SIGNUP (keep this)
+// ✅ BUSINESS SIGNUP (YOUR MISSING ROUTE!)
 router.post("/signup-business", async (req, res) => {
-  // ... your existing business code (unchanged)
+  try {
+    console.log('✅ BUSINESS SIGNUP HIT:', req.body);
+    
+    const { 
+      businessName, 
+      ownerName, 
+      email, 
+      phone, 
+      password, 
+      registrationNumber 
+    } = req.body;
+    
+    // Check if user exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already registered" });
+    }
+    
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+    // Create business user
+    const user = new User({
+      businessName,
+      ownerName,
+      email,
+      phone,
+      password: hashedPassword,
+      registrationNumber: registrationNumber || "",
+      role: "business",  // ✅ Key field your frontend expects
+      status: "pending"  // ✅ Awaits admin approval
+    });
+    
+    await user.save();
+    
+    console.log('✅ Business user created:', { email, role: 'business', status: 'pending' });
+    
+    res.status(201).json({ 
+      success: true, 
+      message: "Business account created! Awaiting admin approval.",
+      role: "business",
+      status: "pending"
+    });
+    
+  } catch (err) {
+    console.error('Business signup error:', err);
+    res.status(500).json({ message: "Server error during registration" });
+  }
 });
 
-// ✅ YOUR EXISTING LOGIN (keep this)  
+// ✅ LOGIN ROUTE (make sure this exists)
 router.post("/login", async (req, res) => {
-  // ... your existing login code (unchanged)
-});
-
-// ✅ YOUR OTHER ROUTES (keep all these)
-router.get("/business-users", async (req, res) => {
-  // ... unchanged
-});
-
-router.put("/approve-business/:id", async (req, res) => {
-  // ... unchanged
+  try {
+    const { email, password } = req.body;
+    
+    const user = await User.findOne({ email }).select('+password');
+    if (!user || !await bcrypt.compare(password, user.password)) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+    
+    res.json({ 
+      message: "Login successful", 
+      role: user.role,      // ✅ Returns "business" for business users
+      status: user.status   // ✅ Returns "pending"/"approved"
+    });
+    
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 module.exports = router;

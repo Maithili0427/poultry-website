@@ -125,6 +125,7 @@ const Navbar = () => {
               )}
 
               <ThemeToggle />
+              <CartButton />
             </div>
 
             {/* Mobile Menu Button */}

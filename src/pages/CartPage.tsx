@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { Trash2, Minus, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import { ShoppingCart } from "lucide-react"; 
 export default function CartPage() {
   const { state, dispatch } = useCart();
   const [isOpen, setIsOpen] = useState(true);

@@ -1,6 +1,29 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 
-const CartContext = createContext();
+type CartItem = {
+  slug: string;
+  title: string;
+  quantity: number;
+  price: number;
+  img: string;
+};
+
+type CartState = {
+  items: CartItem[];
+  totalItems: number;
+  totalPrice: number;
+};
+
+type CartAction =
+  | { type: "ADD_TO_CART"; payload: CartItem }
+  | { type: "REMOVE_FROM_CART"; payload: string }
+  | { type: "UPDATE_QUANTITY"; payload: { slug: string; quantity: number } }
+  | { type: "CLEAR_CART" };
+
+const CartContext = createContext<{
+  state: CartState;
+  dispatch: React.Dispatch<CartAction>;
+} | null>(null);
 
 const cartReducer = (state, action) => {
   switch (action.type) {

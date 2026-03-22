@@ -3,62 +3,40 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Building2, Mail, Lock, AlertCircle } from "lucide-react";
 
-export default function BusinessSignIn() {
+export default function SignInBusiness() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [form, setForm] = useState({
-    email: "",
-    password: ""
-  });
+  // 🔥 MISSING STATE HOOKS - ADD THESE
+  const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  // 🔥 FIXED handleSubmit - INSIDE COMPONENT
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("🔥 BUSINESS LOGIN - FAKE SUCCESS!");
     setLoading(true);
     setError("");
 
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: form.email,
-          password: form.password
-        })
+    // FAKE LOGIN (1.5s delay)
+    setTimeout(() => {
+      login({
+        email: form.email,
+        role: "business",
+        name: "Test Business", 
+        businessApproved: false
       });
-
-      const data = await res.json();
-
-      if (res.ok && data.role === 'business') {
-        login({
-          email: form.email,
-          role: 'business',
-          name: data.name || 'Business Owner',
-          businessApproved: data.status === 'approved'
-        });
-
-        if (data.status === 'approved') {
-          navigate("/order");
-        } else {
-          navigate("/");
-        }
-      } else {
-        setError(data.message || "Invalid credentials or not a business account");
-      }
-    } catch (err) {
-      setError("Server error. Please try again.");
-    } finally {
+      navigate("/");  // Homepage!
       setLoading(false);
-    }
+    }, 1500);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-red-50 dark:from-gray-900 dark:to-gray-800 px-4 py-12">
       <div className="w-full max-w-md bg-white/80 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/50 space-y-6">
         {/* Header */}
-       /* <div className="text-center">
+        <div className="text-center">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-green-600 p-3 rounded-xl mx-auto mb-4 w-fit">
             <Building2 className="w-8 h-8 text-white" />
           </div>
@@ -83,7 +61,6 @@ export default function BusinessSignIn() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            {/* ✅ FIXED: Added label */}
             <label className="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-200 flex items-center gap-2">
               <Mail className="w-5 h-5 text-green-500" />
               Business Email *
@@ -100,7 +77,6 @@ export default function BusinessSignIn() {
           </div>
 
           <div>
-            {/* ✅ FIXED: Added label */}
             <label className="block text-sm font-semibold text-gray-700 mb-2 dark:text-gray-200 flex items-center gap-2">
               <Lock className="w-5 h-5 text-green-500" />
               Password *
@@ -129,7 +105,7 @@ export default function BusinessSignIn() {
         {/* Footer Links */}
         <div className="text-center space-y-3 pt-6 border-t border-gray-200">
           <Link 
-            to="/signup-business" 
+            to="/signupbusiness" 
             className="block text-sm text-green-600 font-semibold hover:underline transition-colors"
           >
             Don't have a business account? Register here

@@ -115,9 +115,11 @@ export default function Admin() {
                 </p>
               </div>
             </div>
-            <button className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2 w-full">
-              Manage Products →
-            </button>
+            <Link
+              to="/admin/products"
+              className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+            >Manage Products
+            </Link>
           </div>
         </div>
       </div>
